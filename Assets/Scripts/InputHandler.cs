@@ -12,8 +12,22 @@ namespace GravesSouls{
         public float mouseY;
 
         PlayerControls inputActions;
+        CameraHandler cameraHandler;
         Vector2 movementInput;
         Vector2 cameraInput;
+
+        void Awake(){
+            cameraHandler = CameraHandler.singleton;
+        }
+
+        void FixedUpdate(){
+            float delta = Time.fixedDeltaTime;
+
+            if(cameraHandler != null){
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+            }
+        }
 
         public void OnEnable(){
             if(inputActions == null){
