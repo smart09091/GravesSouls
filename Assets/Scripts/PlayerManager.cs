@@ -13,6 +13,8 @@ namespace GravesSouls{
 
         [Header("Player Flags")]
         public bool isSprinting;
+        public bool isInAir;
+        public bool isGrounded;
 
         void Awake(){
             cameraHandler = CameraHandler.singleton;
@@ -36,6 +38,7 @@ namespace GravesSouls{
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
+            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
         }
 
         void FixedUpdate(){
@@ -51,6 +54,10 @@ namespace GravesSouls{
             inputHandler.rollFlag = false;
             inputHandler.sprintFlag = false;
             isSprinting = inputHandler.b_Input;
+
+            if(isInAir){
+                playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
+            }
         }
     }
 }

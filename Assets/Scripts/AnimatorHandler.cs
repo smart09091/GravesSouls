@@ -14,7 +14,7 @@ namespace GravesSouls{
         public bool canRotate;
 
         public void Initialize(){
-            playerManager = GetComponent<PlayerManager>();
+            playerManager = GetComponentInParent<PlayerManager>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
