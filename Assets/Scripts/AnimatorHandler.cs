@@ -5,14 +5,16 @@ using UnityEngine;
 namespace GravesSouls{
     public class AnimatorHandler : MonoBehaviour
     {
+        PlayerManager playerManager;
+        InputHandler inputHandler;
+        PlayerLocomotion playerLocomotion;
         public Animator anim;
-        public InputHandler inputHandler;
-        public PlayerLocomotion playerLocomotion;
         int vertical;
         int horizontal;
         public bool canRotate;
 
         public void Initialize(){
+            playerManager = GetComponent<PlayerManager>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
@@ -86,7 +88,7 @@ namespace GravesSouls{
         }
 
         private void OnAnimatorMove(){
-            if(inputHandler.isInteracting == false)
+            if(playerManager.isInteracting == false)
                 return; 
 
             float delta = Time.deltaTime;

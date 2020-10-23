@@ -5,6 +5,7 @@ using UnityEngine;
 namespace GravesSouls{
     public class PlayerLocomotion : MonoBehaviour
     {
+        PlayerManager playerManager;
         Transform cameraObject;
         InputHandler inputHandler;
         Vector3 moveDirection;
@@ -18,7 +19,7 @@ namespace GravesSouls{
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
-        [Header("Stats")]
+        [Header("Movement Stats")]
         [SerializeField]
         float movementSpeed = 5;
         [SerializeField]
@@ -26,11 +27,11 @@ namespace GravesSouls{
         [SerializeField]
         float rotationSpeed = 10;
 
-        public bool isSprinting;
-
         // Start is called before the first frame update
         void Start()
         {
+            playerManager = GetComponent<PlayerManager>();
+
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
 
@@ -40,15 +41,6 @@ namespace GravesSouls{
             myTransform = transform;
             animatorHandler.Initialize();
 
-        }
-
-        public void Update(){
-            float delta = Time.deltaTime;
-
-            isSprinting = inputHandler.b_Input;
-            inputHandler.TickInput(delta);
-            HandleMovement(delta);
-            HandleRollingAndSprinting(delta);
         }
 
         #region Movement
@@ -90,7 +82,7 @@ namespace GravesSouls{
 
             if(inputHandler.sprintFlag){
                 speed = sprintSpeed;
-                isSprinting = true;
+                playerManager.isSprinting = true;
                 moveDirection *= speed;
             }else{
                 moveDirection *= speed;
@@ -99,7 +91,7 @@ namespace GravesSouls{
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
             rigidbody.velocity = projectedVelocity;
 
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, isSprinting);
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
 
             if(animatorHandler.canRotate){
                 HandleRotation(delta);
