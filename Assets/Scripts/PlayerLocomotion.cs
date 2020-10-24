@@ -97,12 +97,13 @@ namespace GravesSouls{
 
             float speed = movementSpeed;
 
-            if(inputHandler.sprintFlag){
+            if(inputHandler.sprintFlag && inputHandler.moveAmount > .5f){
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
                 moveDirection *= speed;
             }else{
                 moveDirection *= speed;
+                playerManager.isSprinting = false;
             }
 
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
