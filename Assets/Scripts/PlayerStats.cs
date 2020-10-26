@@ -9,9 +9,13 @@ namespace GravesSouls{
         public int healthLevel = 10;
         public int maxHealth;
         public int currentHealth;
-
+    
         public HealthBar healthBar;
+        AnimatorHandler animatorHandler;
 
+        private void Awake(){
+            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        }
         // Start is called before the first frame update
         void Start()
         {
@@ -29,6 +33,13 @@ namespace GravesSouls{
             currentHealth = currentHealth - damage;
 
             healthBar.SetCurrentHealth(currentHealth);
+
+            animatorHandler.PlayTargetAnimation("Damage01", true);
+
+            if(currentHealth <= 0){
+                currentHealth = 0;
+                animatorHandler.PlayTargetAnimation("Dead01", true);
+            }
         }
     }
 }
