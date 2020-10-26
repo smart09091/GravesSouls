@@ -8,6 +8,9 @@ namespace GravesSouls{
         WeaponHolderSlot leftHandSlot;
         WeaponHolderSlot rightHandSlot;
 
+        DamageCollider leftHandDamageCollider;
+        DamageCollider rightHandDamageCollider;
+
         void Awake(){
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach(WeaponHolderSlot weaponSlot in weaponHolderSlots){
@@ -23,9 +26,35 @@ namespace GravesSouls{
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft){
             if(isLeft){
                 leftHandSlot.LoadWeaponModel(weaponItem);
+                LoadLeftWeaponDamageCollider();
             }else{
                 rightHandSlot.LoadWeaponModel(weaponItem);
+                LoadRightWeaponDamageCollider();
             }
         }
+
+        #region Handle Weapon's Damage Collider
+        void LoadLeftWeaponDamageCollider(){
+            leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        void LoadRightWeaponDamageCollider(){
+            rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        public void OpenLeftDamageCollider(){
+            leftHandDamageCollider.EnableDamageCollider();
+        }
+        public void OpenRightDamageCollider(){
+            rightHandDamageCollider.EnableDamageCollider();
+        }
+
+        public void CloseLeftDamageCollider(){
+            leftHandDamageCollider.DisableDamageCollider();
+        }
+        public void CloseRightDamageCollider(){
+            rightHandDamageCollider.DisableDamageCollider();
+        }
+        #endregion
     }
 }
